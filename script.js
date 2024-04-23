@@ -1,43 +1,38 @@
-document.addEventListener("DOMContentLoaded", function() {
-  const timerDisplay = document.getElementById('timer');
-  const stoppedDisplay = document.getElementById('stopped');
-  const startBtn = document.getElementById('startBtn');
+const btnStart = document.getElementById('btn-start');
 
-  // Função para formatar o tempo em minutos e segundos
-  function formatTime(minutes, seconds) {
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  }
+btnStart.addEventListener('click', () => {
+  const hours = document.getElementById('hour');
+  const minutes = document.getElementById('minute');
+  const seconds = document.getElementById('second');
 
-  // Função para atualizar e exibir o temporizador
-  function displayTimeLeft(minutes, seconds) {
-    timerDisplay.textContent = formatTime(minutes, seconds);
-  }
+  let duration = (parseInt(hours.value) * 60 * 60) + (parseInt(minutes.value) * 60) + parseInt(seconds.value);
 
-  // Função para iniciar o temporizador com o tempo especificado
-  function startTimer(minutes, seconds) {
-    let totalSeconds = (minutes * 60) + seconds;
-    displayTimeLeft(minutes, seconds);
-    const timerInterval = setInterval(() => {
-      totalSeconds--;
-      const remainingMinutes = Math.floor(totalSeconds / 60);
-      const remainingSeconds = totalSeconds % 60;
-      displayTimeLeft(remainingMinutes, remainingSeconds);
-      if (totalSeconds <= 0) {
-        clearInterval(timerInterval);
-        timerDisplay.textContent = '00:00';
-        stoppedDisplay.textContent = 'PAROU';
-      }
-    }, 1000);
-  }
+  display = document.getElementById('timer');
+  timer(duration, display);
+})
 
-  // Evento de clique no botão de iniciar
-  startBtn.addEventListener('click', function() {
-    const minutes = parseInt(document.getElementById('minutes').value);
-    const seconds = parseInt(document.getElementById('seconds').value);
-    if (minutes > 0 || seconds > 0) {
-      startTimer(minutes, seconds);
-    } else {
-      alert('Por favor, insira um valor válido de minutos ou segundos.');
+const timer = (duration, display) => {
+  let timer = duration;
+  let hours, minutes, seconds;
+
+  let interval = setInterval(() => {
+    hours = Math.floor((timer / 60) / 60);
+    minutes = Math.floor(timer / 60 - (hours * 60));
+    seconds = Math.floor(timer % 60);
+
+    // console.log(timer);
+
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    display.innerHTML = `${hours}:${minutes}:${seconds}`;
+
+    timer -= 1;
+
+    if(timer < 0){
+      display.innerHTML = 'ACABOU!!!';
+      clearInterval(interval);
     }
-  });
-});
+  }, 1000);
+}
