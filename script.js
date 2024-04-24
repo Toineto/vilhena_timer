@@ -5,6 +5,7 @@ const btnStart = document.getElementById('btn-start');
 const stopButton = document.getElementById('btn-stop');
 const continueButton = document.getElementById('btn-continue');
 const pauseButton = document.getElementById('btn-pause');
+const presetButtons = document.querySelectorAll('.preset');
 
 btnStart.addEventListener('click', () => {
   const hours = document.getElementById('hour');
@@ -15,6 +16,20 @@ btnStart.addEventListener('click', () => {
 
   const display = document.getElementById('timer');
   timer(duration, display);
+
+  btnStart.disabled = true; // Desativa o botão "Iniciar"
+});
+
+presetButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const minutes = parseInt(button.dataset.minutes);
+    const duration = minutes * 60;
+
+    const display = document.getElementById('timer');
+    timer(duration, display);
+
+    btnStart.disabled = true; // Desativa o botão "Iniciar"
+  });
 });
 
 const timer = (duration, display) => {
@@ -35,8 +50,10 @@ const timer = (duration, display) => {
     timer -= 1;
 
     if (timer < 0) {
-      display.innerHTML = 'ACABOU!!!';
+      display.innerHTML = 'PAROU !!!';
       clearInterval(interval);
+      playSound(); // Chama a função para reproduzir o som
+      btnStart.disabled = false; // Reativa o botão "Iniciar"
     }
   }, 1000);
 };
@@ -45,6 +62,7 @@ stopButton.addEventListener('click', () => {
   clearInterval(interval);
   const display = document.getElementById('timer');
   display.innerHTML = '00:00:00'; // Reinicia o contador
+  btnStart.disabled = false; // Reativa o botão "Iniciar"
 });
 
 pauseButton.addEventListener('click', () => {
@@ -55,10 +73,17 @@ pauseButton.addEventListener('click', () => {
 continueButton.addEventListener('click', () => {
   const display = document.getElementById('timer');
   timer(remainingTime, display);
+
+  btnStart.disabled = true; // Desativa o botão "Iniciar"
 });
 
 function calculateRemainingTime() {
   const display = document.getElementById('timer');
   const [hours, minutes, seconds] = display.innerHTML.split(':').map(part => parseInt(part));
   return (hours * 60 * 60) + (minutes * 60) + seconds; // Retorna o tempo restante em segundos
+}
+
+function playSound() {
+  const audio = document.getElementById('audio');
+  audio.play();
 }
