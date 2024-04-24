@@ -14,10 +14,24 @@ input {
 
 button {
   font-size: 20px;
-  background-color: rgb(54, 236, 54);
-  border-radius: 10%;
+  background-color: rgb(255, 0, 0); /* Cor vermelha */
+  border-radius: 5%;
   padding: 10px 20px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease; /* Adicionando transições suaves */
 }
+
+button:hover {
+  background-color: rgb(200, 0, 0); /* Alterando a cor ao passar o mouse */
+}
+
+button:active {
+  transform: scale(0.95); /* Reduzindo ligeiramente o tamanho quando clicado */
+}
+
+
 
 .timer {
   font-size: 200px;
