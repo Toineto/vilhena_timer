@@ -1,4 +1,6 @@
 const btnStart = document.getElementById('btn-start');
+const stopButton = document.getElementById('btn-stop');
+
 
 btnStart.addEventListener('click', () => {
   const hours = document.getElementById('hour');
