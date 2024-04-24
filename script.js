@@ -44,7 +44,7 @@ const timer = (duration, display) => {
 stopButton.addEventListener('click', () => {
   clearInterval(interval);
   const display = document.getElementById('timer');
-  display.innerHTML = 'Temporizador interrompido!';
+  display.innerHTML = '00:00:00'; // Reinicia o contador
 });
 
 pauseButton.addEventListener('click', () => {
